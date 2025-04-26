@@ -1,1 +1,1 @@
-web: gunicorn budget_tracker_backend.wsgi --bind 0.0.0.0:${PORT:-8080} --access-logfile - --error-logfile - --log-level info 
+web: gunicorn budget_tracker_backend.wsgi --bind 0.0.0.0:${PORT:-8080} --access-logfile - --error-logfile - --log-level info --timeout 120 
