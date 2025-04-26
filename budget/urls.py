@@ -5,6 +5,7 @@ app_name = 'budget'
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('register/', views.register, name='register'),
     
     # Category URLs
     path('categories/', views.CategoryListView.as_view(), name='category-list'),

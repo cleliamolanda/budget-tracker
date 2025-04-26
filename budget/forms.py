@@ -2,6 +2,8 @@ from django import forms
 from .models import Category, Transaction, Budget
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -78,4 +80,11 @@ class BudgetForm(forms.ModelForm):
                     "Please update the existing budget instead."
                 )
         
-        return cleaned_data 
+        return cleaned_data
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2'] 
