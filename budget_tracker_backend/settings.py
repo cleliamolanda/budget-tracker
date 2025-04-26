@@ -63,6 +63,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Health check settings
+HEALTH_CHECK_URL = '/health/'
+HEALTH_CHECK_METHODS = ['GET']
+
 ROOT_URLCONF = "budget_tracker_backend.urls"
 
 TEMPLATES = [
