@@ -33,10 +33,9 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Get the Railway domain from environment variable
 RAILWAY_STATIC_URL = os.getenv('RAILWAY_STATIC_URL', '')
-if RAILWAY_STATIC_URL:
-    ALLOWED_HOSTS = [RAILWAY_STATIC_URL, 'localhost', '127.0.0.1']
-else:
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,*.railway.app').split(',')
+RAILWAY_PUBLIC_DOMAIN = os.getenv('RAILWAY_PUBLIC_DOMAIN', '')
+
+ALLOWED_HOSTS = ['*']  # Temporarily allow all hosts for health check
 
 
 # Application definition
