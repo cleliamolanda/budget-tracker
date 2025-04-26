@@ -1,0 +1,105 @@
+{% extends 'budget/base.html' %}
+{% load budget_extras %}
+
+{% block title %}Dashboard - Budget Tracker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Monthly Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Income</h6>
+                    <p class="text-success">${{ income|floatformat:2 }}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Expenses</h6>
+                    <p class="text-danger">${{ expenses|floatformat:2 }}</p>
+                </div>
+                <div>
+                    <h6>Balance</h6>
+                    <p class="{% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        ${{ balance|floatformat:2 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Category Expenses</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in category_expenses %}
+                            <tr>
+                                <td>{{ expense.category__name }}</td>
+                                <td>${{ expense.total|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2">No expenses recorded for this month.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Monthly Budgets</h5>
+                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm">Add Budget</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Budget Amount</th>
+                                <th>Spent Amount</th>
+                                <th>Remaining</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for budget in budgets %}
+                            <tr>
+                                <td>{{ budget.category.name }}</td>
+                                <td>${{ budget.amount|floatformat:2 }}</td>
+                                <td>${{ budget.spent_amount|floatformat:2 }}</td>
+                                <td class="{% if budget.amount >= budget.spent_amount %}text-success{% else %}text-danger{% endif %}">
+                                    ${{ budget.amount|sub:budget.spent_amount|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No budgets set for this month.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
