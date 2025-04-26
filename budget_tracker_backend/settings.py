@@ -31,7 +31,12 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-your-secret-key-her
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Get the Railway domain from environment variable
+RAILWAY_STATIC_URL = os.getenv('RAILWAY_STATIC_URL', '')
+if RAILWAY_STATIC_URL:
+    ALLOWED_HOSTS = [RAILWAY_STATIC_URL, 'localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,*.railway.app').split(',')
 
 
 # Application definition
