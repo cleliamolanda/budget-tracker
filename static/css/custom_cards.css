@@ -1,12 +1,12 @@
 .custom-card {
     border-color: #30343F;
-    border-radius: 20px;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.5) !important;
 }
 
 .custom-card-header-border {
-    border-top-left-radius: 20px !important;
-    border-top-right-radius: 20px !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
     border-bottom: 1 !important;
 }
 

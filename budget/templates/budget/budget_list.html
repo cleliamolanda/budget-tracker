@@ -6,7 +6,7 @@
 <div class="card custom-card">
     <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple">
         <h5 class="card-title custom-text-style mb-0">{{ title }}</h5>
-        <a href="{% url create_url %}" class="btn btn-primary btn-sm">Add New</a>
+        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add New</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -27,8 +27,8 @@
                             <td>{{ budget.month|date:"F Y" }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{% url update_url budget.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="{% url delete_url budget.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    <a href="{% url update_url budget.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
+                                    <a href="{% url delete_url budget.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
                                 </div>
                             </td>
                         </tr>
