@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card custom-card">
     <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightskyblue">
-        <h5 class="card-title custom-text-style mb-0">{{ title }}</h5>
+        <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
         <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-skyblue">+ Add New</a>
     </div>
     <div class="card-body">
@@ -14,18 +14,18 @@
                 <thead>
                     <tr>
                         {% for header in headers %}
-                            <th>{{ header }}</th>
+                            <th class="custom-col-name-skyblue text-align-center">{{ header }}</th>
                         {% endfor %}
-                        <th>Actions</th>
+                        <th class="custom-col-name-skyblue text-align-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for category in object_list %}
                         <tr>
-                            <td>{{ category.name }}</td>
-                            <td>{{ category.created_at|date:"Y-m-d H:i" }}</td>
-                            <td>{{ category.updated_at|date:"Y-m-d H:i" }}</td>
-                            <td>
+                            <td class="custom-text-blk text-align-center">{{ category.name }}</td>
+                            <td class="custom-text-blk text-align-center">{{ category.created_at|date:"Y-m-d H:i" }}</td>
+                            <td class="custom-text-blk text-align-center">{{ category.updated_at|date:"Y-m-d H:i" }}</td>
+                            <td class="text-align-center">
                                 <div class="btn-group">
                                     <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
                                     <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
