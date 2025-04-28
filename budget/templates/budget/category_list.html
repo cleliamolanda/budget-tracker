@@ -12,20 +12,20 @@
         <div class="table-responsive">
             <table class="table custom-no-bg">
                 <thead>
-                    <tr>
+                    <tr class="text-align-center">
                         {% for header in headers %}
-                            <th class="custom-col-name-skyblue text-align-center">{{ header }}</th>
+                            <th class="custom-col-name-skyblue">{{ header }}</th>
                         {% endfor %}
-                        <th class="custom-col-name-skyblue text-align-center">Actions</th>
+                        <th class="custom-col-name-skyblue">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for category in object_list %}
-                        <tr>
-                            <td class="custom-text-blk text-align-center">{{ category.name }}</td>
-                            <td class="custom-text-blk text-align-center">{{ category.created_at|date:"Y-m-d H:i" }}</td>
-                            <td class="custom-text-blk text-align-center">{{ category.updated_at|date:"Y-m-d H:i" }}</td>
-                            <td class="text-align-center">
+                        <tr class="text-align-center">
+                            <td class="custom-text-blk">{{ category.name }}</td>
+                            <td class="custom-text-blk">{{ category.created_at|date:"Y-m-d H:i" }}</td>
+                            <td class="custom-text-blk">{{ category.updated_at|date:"Y-m-d H:i" }}</td>
+                            <td>
                                 <div class="btn-group">
                                     <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
                                     <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>

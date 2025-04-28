@@ -12,20 +12,20 @@
         <div class="table-responsive">
             <table class="table custom-no-bg">
                 <thead>
-                    <tr>
+                    <tr class="text-align-center">
                         {% for header in headers %}
-                            <th class="custom-col-name-purple custom-text-center">{{ header }}</th>
+                            <th class="custom-col-name-purple">{{ header }}</th>
                         {% endfor %}
-                        <th class="custom-col-name-purple custom-text-center">Actions</th>
+                        <th class="custom-col-name-purple">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for budget in object_list %}
-                        <tr>
-                            <td class="custom-text-blk text-align-center">{{ budget.category.name }}</td>
-                            <td class="custom-text-blk text-align-center">${{ budget.amount|floatformat:2 }}</td>
-                            <td class="custom-text-blk text-align-center">{{ budget.month|date:"F Y" }}</td>
-                            <td class="text-align-center">
+                        <tr class="text-align-center">
+                            <td class="custom-text-blk">{{ budget.category.name }}</td>
+                            <td class="custom-text-blk">${{ budget.amount|floatformat:2 }}</td>
+                            <td class="custom-text-blk">{{ budget.month|date:"F Y" }}</td>
+                            <td>
                                 <div class="btn-group">
                                     <a href="{% url update_url budget.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
                                     <a href="{% url delete_url budget.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
