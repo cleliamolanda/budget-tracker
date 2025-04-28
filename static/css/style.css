@@ -1,5 +1,20 @@
+@font-face {
+    font-family: 'Helvetica Now Display';
+    src: url("{% static 'fonts/HelveticaNowDisplay-Regular' %}") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Now Display';
+    src: url("{% static 'fonts/HelveticaNowDisplay-Bold.ttf' %}") format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
     background-color: #f8f9fa;
+    font-family: 'Helvetica Now Display', sans-serif;
 }
 
 /* .custom-gradient-bg-2 {
@@ -47,4 +62,8 @@ body {
 .btn-primary:hover {
     background-color: #0b5ed7;
     border-color: #0a58ca;
+}
+
+.custom-app-name-style {
+    font-family: 'Just Another Hand', cursive;
 }
