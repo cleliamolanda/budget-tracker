@@ -4,21 +4,30 @@
     background: rgba(255, 255, 255, 0.5) !important;
 }
 
-.card-header-border {
+.custom-card-header-border {
     border-top-left-radius: 20px !important;
     border-top-right-radius: 20px !important;
     border-bottom: 1 !important;
-    text-align: center;
 }
 
-.card-header-skyblue {
+.custom-card-header-skyblue {
     background-color: #BDE0FE;
-    color: #30343F;
+    color: #30343F !important;
 }
 
-.card-header-purple {
+.custom-card-header-purple {
     background-color: #E7D8F0;
-    color: #30343F;
+    color: #30343F !important;
+}
+
+.custom-card-header-lightpink {
+    background-color: #F0D8E7;
+    color: #30343F !important;
+}
+
+.custom-card-header-lightskyblue {
+    background-color: #D0E9F2;
+    color: #30343F !important   ;
 }
 
 /* .custom-card-body {
