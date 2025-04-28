@@ -9,8 +9,8 @@
         <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-fuchsia">+ Add New</a>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table">
+        <div class="table-responsive ">
+            <table class="table custom-no-bg">
                 <thead>
                     <tr>
                         {% for header in headers %}
@@ -31,8 +31,8 @@
                             <td>{{ transaction.date|date:"Y-m-d" }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{% url update_url transaction.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="{% url delete_url transaction.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    <a href="{% url update_url transaction.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
+                                    <a href="{% url delete_url transaction.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
                                 </div>
                             </td>
                         </tr>

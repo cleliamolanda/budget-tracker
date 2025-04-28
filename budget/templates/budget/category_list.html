@@ -27,8 +27,8 @@
                             <td>{{ category.updated_at|date:"Y-m-d H:i" }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
+                                    <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
                                 </div>
                             </td>
                         </tr>
