@@ -1,8 +1,14 @@
 .custom-card {
     border-color: #30343F;
     border-radius: 20px;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.card-header-border {
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    border-bottom: 1 !important;
+    text-align: center;
 }
 
 .card-header-skyblue {
@@ -10,6 +16,11 @@
     color: #30343F;
 }
 
-.custom-card-body {
-    background: rgba(255, 255, 255, 0.4) !important;
+.card-header-purple {
+    background-color: #E7D8F0;
+    color: #30343F;
 }
+
+/* .custom-card-body {
+    background: rgba(255, 255, 255, 0.4) !important;
+} */
