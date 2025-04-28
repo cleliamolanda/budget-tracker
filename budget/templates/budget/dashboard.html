@@ -2,7 +2,9 @@
 {% load budget_extras %}
 {% load static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock %}
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
 {% block title %}Dashboard - Budget Tracker{% endblock %}
 
@@ -34,7 +36,7 @@
 
     <div class="col-md-8">
         <div class="card custom-card mb-4">
-            <div class="card-header custom-card-header-purple custom-card-header-border">
+            <div class="card-header custom-card-header-skyblue custom-card-header-border">
                 <h5 class="card-title custom-text-style mb-0">Category Expenses</h5>
             </div>
             <div class="card-body">
@@ -42,8 +44,8 @@
                     <table class="table custom-no-bg">
                         <thead>
                             <tr>
-                                <th>Category</th>
-                                <th>Amount</th>
+                                <th class="custom-col-name-skyblue">Category</th>
+                                <th class="custom-col-name-skyblue">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,17 +72,17 @@
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center custom-card-header-purple custom-card-header-border">
                 <h5 class="card-title custom-text-style mb-0">Monthly Budgets</h5>
-                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple">Add Budget</a>
+                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add Budget</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table custom-no-bg">
                         <thead>
                             <tr>
-                                <th>Category</th>
-                                <th>Budget Amount</th>
-                                <th>Spent Amount</th>
-                                <th>Remaining</th>
+                                <th class="custom-col-name-purple">Category</th>
+                                <th class="custom-col-name-purple">Budget Amount</th>
+                                <th class="custom-col-name-purple">Spent Amount</th>
+                                <th class="custom-col-name-purple">Remaining</th>
                             </tr>
                         </thead>
                         <tbody>
