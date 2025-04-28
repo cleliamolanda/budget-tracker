@@ -12,7 +12,7 @@
         <div class="table-responsive">
             <table class="table custom-no-bg">
                 <thead>
-                    <tr class="text-align-center">
+                    <tr class="custom-text-align-center">
                         {% for header in headers %}
                             <th class="custom-col-name-skyblue">{{ header }}</th>
                         {% endfor %}
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                     {% for category in object_list %}
-                        <tr class="text-align-center">
+                        <tr class="custom-text-align-center">
                             <td class="custom-text-blk">{{ category.name }}</td>
                             <td class="custom-text-blk">{{ category.created_at|date:"Y-m-d H:i" }}</td>
                             <td class="custom-text-blk">{{ category.updated_at|date:"Y-m-d H:i" }}</td>

@@ -12,7 +12,7 @@
         <div class="table-responsive ">
             <table class="table custom-no-bg">
                 <thead>
-                    <tr class="text-align-center">
+                    <tr class="custom-text-align-center">
                         {% for header in headers %}
                             <th class="custom-col-name-fuchsia">{{ header }}</th>
                         {% endfor %}
@@ -21,9 +21,9 @@
                 </thead>
                 <tbody>
                     {% for transaction in object_list %}
-                        <tr class="text-align-center">
-                            <td class="custom-text-blk text-align-center">{{ transaction.title }}</td>
-                            <td class="{% if transaction.transaction_type == 'income' %}text-success{% else %}text-danger{% endif %} text-align-center">
+                        <tr class="custom-text-align-center">
+                            <td class="custom-text-blk custom-text-align-center">{{ transaction.title }}</td>
+                            <td class="{% if transaction.transaction_type == 'income' %}text-success{% else %}text-danger{% endif %} custom-text-align-center">
                                 ${{ transaction.amount|floatformat:2 }}
                             </td>
                             <td class="custom-text-blk">{{ transaction.get_transaction_type_display }}</td>

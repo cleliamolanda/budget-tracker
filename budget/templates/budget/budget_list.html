@@ -12,7 +12,7 @@
         <div class="table-responsive">
             <table class="table custom-no-bg">
                 <thead>
-                    <tr class="text-align-center">
+                    <tr class="custom-text-align-center">
                         {% for header in headers %}
                             <th class="custom-col-name-purple">{{ header }}</th>
                         {% endfor %}
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                     {% for budget in object_list %}
-                        <tr class="text-align-center">
+                        <tr class="custom-text-align-center">
                             <td class="custom-text-blk">{{ budget.category.name }}</td>
                             <td class="custom-text-blk">${{ budget.amount|floatformat:2 }}</td>
                             <td class="custom-text-blk">{{ budget.month|date:"F Y" }}</td>

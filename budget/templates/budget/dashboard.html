@@ -43,14 +43,14 @@
                 <div class="table-responsive">
                     <table class="table custom-no-bg">
                         <thead>
-                            <tr class="text-align-center">
+                            <tr class="custom-text-align-center">
                                 <th class="custom-col-name-skyblue">Category</th>
                                 <th class="custom-col-name-skyblue">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for expense in category_expenses %}
-                            <tr class="text-align-center">
+                            <tr class="custom-text-align-center">
                                 <td>{{ expense.category__name }}</td>
                                 <td>${{ expense.total|floatformat:2 }}</td>
                             </tr>
@@ -78,7 +78,7 @@
                 <div class="table-responsive">
                     <table class="table custom-no-bg">
                         <thead>
-                            <tr class="text-align-center">
+                            <tr class="custom-text-align-center">
                                 <th class="custom-col-name-purple">Category</th>
                                 <th class="custom-col-name-purple">Budget Amount</th>
                                 <th class="custom-col-name-purple">Spent Amount</th>
@@ -87,7 +87,7 @@
                         </thead>
                         <tbody>
                             {% for budget in budgets %}
-                            <tr class="text-align-center">
+                            <tr class="custom-text-align-center">
                                 <td>{{ budget.category.name }}</td>
                                 <td>${{ budget.amount|floatformat:2 }}</td>
                                 <td>${{ budget.spent_amount|floatformat:2 }}</td>

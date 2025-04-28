@@ -23,12 +23,16 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.text-align-center {
+.custom-text-align-center {
     text-align: center;
 }
 
 .custom-text-blk {
     color: #30343F !important;
+}
+
+.custom-text-fuchsia {
+    color: #C23E6E !important;
 }
 
 .form-group {

@@ -4,6 +4,11 @@
     background: rgba(255, 255, 255, 0.5) !important;
 }
 
+.custom-card-no-bg {
+    --bs-card-bg: transparent !important;
+    border: none !important;
+}
+
 .custom-card-header-border {
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
@@ -30,6 +35,7 @@
     color: #30343F !important   ;
 }
 
-/* .custom-card-body {
-    background: rgba(255, 255, 255, 0.4) !important;
-} */
+.custom-card-header-no-bg {
+    background-color: transparent !important;
+    color: #30343F !important;
+}
