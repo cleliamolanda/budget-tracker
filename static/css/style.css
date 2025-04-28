@@ -2,8 +2,16 @@ body {
     background-color: #f8f9fa;
 }
 
+/* .custom-gradient-bg-2 {
+    background: radial-gradient(64.87% 195.86% at 45.36% 68.1%, rgba(255, 175, 204, 0.47) 0%, rgba(189, 224, 254, 0.47) 100%) !important;
+} */
+
 .navbar {
     margin-bottom: 2rem;
+}
+
+.custom-pink-bg {
+    background-color: #FFAFCC !important;
 }
 
 .container {
@@ -27,4 +35,4 @@ body {
 .btn-primary:hover {
     background-color: #0b5ed7;
     border-color: #0a58ca;
-} 
+}

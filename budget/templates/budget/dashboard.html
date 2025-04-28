@@ -1,16 +1,19 @@
 {% extends 'budget/base.html' %}
 {% load budget_extras %}
+{% load static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock %}
 
 {% block title %}Dashboard - Budget Tracker{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-header">
+        <div class="card custom-card mb-4">
+            <div class="card-header card-header-skyblue">
                 <h5 class="card-title mb-0">Monthly Summary</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background: rgba(255, 255, 255, 0.4);">
                 <div class="mb-3">
                     <h6>Income</h6>
                     <p class="text-success">${{ income|floatformat:2 }}</p>
@@ -102,4 +105,4 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

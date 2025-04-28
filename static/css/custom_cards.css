@@ -1,0 +1,15 @@
+.custom-card {
+    border-color: #30343F;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-skyblue {
+    background-color: #BDE0FE;
+    color: #30343F;
+}
+
+.custom-card-body {
+    background: rgba(255, 255, 255, 0.4) !important;
+}
