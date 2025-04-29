@@ -35,6 +35,11 @@
     color: #30343F !important   ;
 }
 
+.custom-card-header-fuchsia {
+    background-color: #C23E6E;
+    color: #30343F !important;
+}
+
 .custom-card-header-no-bg {
     background-color: transparent !important;
     color: #30343F !important;
