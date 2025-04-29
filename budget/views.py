@@ -9,6 +9,7 @@ from .models import Category, Transaction, Budget
 from .forms import CategoryForm, TransactionForm, BudgetForm, UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 # Create your views here.
 
@@ -206,7 +207,7 @@ class BudgetDeleteView(LoginRequiredMixin, DeleteView):
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    
+
     today = timezone.now().date()
     first_day = today.replace(day=1)
     last_day = (first_day + timedelta(days=32)).replace(day=1) - timedelta(days=1)
@@ -224,24 +225,58 @@ def dashboard(request):
         total=Sum('amount')
     )['total'] or 0
 
+    balance = income - expenses
+
     category_expenses = transactions.filter(
         transaction_type='expense'
     ).values('category__name').annotate(
         total=Sum('amount')
-    )
+    ).order_by('-total')
 
     budgets = Budget.objects.filter(
         user=request.user,
         month=first_day
-    )
+    ).select_related('category')
+
+    # Create a dictionary to store spent amounts per category
+    budget_spent = {}
+
+    # Calculate spent amount for each budget's category
+    for budget in budgets:
+        category_id = budget.category.id
+        spent = transactions.filter(
+            transaction_type='expense',
+            category_id=category_id
+        ).aggregate(total=Sum('amount'))['total'] or 0.0
+        budget_spent[category_id] = spent
+
+    # Data for charts - handle empty case
+    if category_expenses:
+        category_names = [item['category__name'] for item in category_expenses]
+        category_values = [float(item['total']) for item in category_expenses]  # Ensure floating point values
+    else:
+        category_names = []
+        category_values = []
 
     context = {
         'income': income,
         'expenses': expenses,
-        'balance': income - expenses,
+        'balance': balance,
         'category_expenses': category_expenses,
-        'budgets': budgets
+        'category_names': category_names,
+        'category_values': category_values,
+        'budgets': budgets,
+        'budget_spent': budget_spent
     }
+
+    # Add debugging info to context if in debug mode
+    if settings.DEBUG:
+        context['debug_info'] = {
+            'has_transactions': transactions.exists(),
+            'transaction_count': transactions.count(),
+            'has_category_expenses': bool(category_expenses),
+            'has_budgets': budgets.exists(),
+        }
 
     return render(request, 'budget/dashboard.html', context)
 
