@@ -9,6 +9,14 @@
     border: none !important;
 }
 
+.custom-card-header {
+    background-color: #C23E6E !important;
+    color: #30343F !important;
+    border-bottom: 1px solid #30343F !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
 .custom-card-header-border {
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
@@ -33,6 +41,11 @@
 .custom-card-header-lightskyblue {
     background-color: #D0E9F2;
     color: #30343F !important   ;
+}
+
+.custom-card-header-fuchsia {
+    background-color: #C23E6E;
+    color: #30343F !important;
 }
 
 .custom-card-header-no-bg {
