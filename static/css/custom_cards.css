@@ -9,14 +9,6 @@
     border: none !important;
 }
 
-.custom-card-header {
-    background-color: #C23E6E !important;
-    color: #30343F !important;
-    border-bottom: 1px solid #30343F !important;
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-}
-
 .custom-card-header-border {
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
