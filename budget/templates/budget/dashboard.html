@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom_dashboard.css' %}">
 {% endblock %}
 
 {% block title %}Dashboard - Budget Tracker{% endblock %}
@@ -174,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make sure there's data to display
     if (income === 0 && expenses === 0 && balance === 0) {
         // Show a message in the canvas if there's no data
-        monthlySummaryCtx.font = '14px Arial';
-        monthlySummaryCtx.fillStyle = '#666';
+        monthlySummaryCtx.font = '14px Helvetica Now Display, sans-serif';
+        monthlySummaryCtx.fillStyle = '#0b5ed7';
         monthlySummaryCtx.textAlign = 'center';
         monthlySummaryCtx.fillText('No financial data available for this month', monthlySummaryCanvas.width / 2, monthlySummaryCanvas.height / 2);
     } else {
@@ -248,11 +248,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Check if there's data to display
         if (categoryNames.length === 0 || categoryValues.length === 0) {
+            // Set the canvas dimensions
+            const scale = window.devicePixelRatio || 1;
+            const width = categoryCanvas.offsetWidth;
+            const height = categoryCanvas.offsetHeight;
+
+            categoryCanvas.width = width * scale;
+            categoryCanvas.height = height * scale;
+            categoryCtx.scale(scale, scale);
+
             // Show a message in the canvas if there's no data
-            categoryCtx.font = '14px Arial';
-            categoryCtx.fillStyle = '#666';
+            categoryCtx.clearRect(0, 0, width, height);
+            categoryCtx.font = '10px Helvetica Now Display, sans-serif';
+            categoryCtx.fillStyle = '#0b5ed7';
             categoryCtx.textAlign = 'center';
-            categoryCtx.fillText('No category expense data available for this month', categoryCanvas.width / 2, categoryCanvas.height / 2);
+            categoryCtx.textBaseline = 'middle';
+            const message = 'No category expenses data available for this month';
+
+            // Word wrap support
+            const words = message.split(' ');
+            let line = '';
+            const lines = [];
+            const maxWidth = width * 0.9; // 90% of container width
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                const metrics = categoryCtx.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && i > 0) {
+                    lines.push(line);
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+
+            const lineHeight = 22;
+            const startY = (height - lines.length * lineHeight) / 2;
+
+            for (let j = 0; j < lines.length; j++) {
+                categoryCtx.fillText(lines[j].trim(), width / 2, startY + j * lineHeight);
+            }
         } else {
             // Create bar chart
             new Chart(categoryCtx, {
@@ -298,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (error) {
         console.error("Error initializing category chart:", error);
         // Show error message in the canvas
-        categoryCtx.font = '14px Arial';
+        categoryCtx.font = '12px Helvetica Now Display, sans-serif';
         categoryCtx.fillStyle = '#d9534f';
         categoryCtx.textAlign = 'center';
         categoryCtx.fillText('Error loading chart data', categoryCanvas.width / 2, categoryCanvas.height / 2);
