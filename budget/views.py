@@ -6,10 +6,12 @@ from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime, timedelta
 from .models import Category, Transaction, Budget
-from .forms import CategoryForm, TransactionForm, BudgetForm, UserRegisterForm
+from .forms import CategoryForm, TransactionForm, BudgetForm, UserRegisterForm, ExportFilterForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -291,3 +293,42 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def export_csv(request):
+    form = ExportFilterForm(user=request.user, data=request.GET or None)
+    if form.is_valid() and request.GET:
+        # Filter transactions based on form data
+        transactions = Transaction.objects.filter(user=request.user)
+        start_date = form.cleaned_data.get('start_date')
+        end_date = form.cleaned_data.get('end_date')
+        category = form.cleaned_data.get('category')
+
+        if start_date:
+            transactions = transactions.filter(date__gte=start_date)
+        if end_date:
+            transactions = transactions.filter(date__lte=end_date)
+        if category:  # Only filter by category if a specific category is selected
+            transactions = transactions.filter(category_id=category)
+
+        # Generate a filename with the current date and time
+        current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        filename = f"transactions_{current_time}.csv"
+
+        # CSV response logic
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        writer = csv.writer(response)
+        writer.writerow(['Title', 'Amount', 'Type', 'Category', 'Date', 'Notes'])
+        for transaction in transactions:
+            writer.writerow([
+                transaction.title,
+                transaction.amount,
+                transaction.transaction_type,
+                transaction.category.name if transaction.category else '',
+                transaction.date.strftime('%Y-%m-%d'),  # Format the date
+                transaction.notes,
+            ])
+        return response
+
+    return render(request, 'budget/export_csv.html', {'form': form})

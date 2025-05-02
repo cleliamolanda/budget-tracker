@@ -65,7 +65,7 @@ class BudgetForm(forms.ModelForm):
         cleaned_data = super().clean()
         category = cleaned_data.get('category')
         month = cleaned_data.get('month')
-        
+
         if category and month and self.user:
             # Check if a budget already exists for this user, category, and month
             existing_budget = Budget.objects.filter(
@@ -73,13 +73,13 @@ class BudgetForm(forms.ModelForm):
                 category=category,
                 month=month
             ).first()
-            
+
             if existing_budget and existing_budget != self.instance:
                 raise ValidationError(
                     f"A budget for {category.name} already exists for {month.strftime('%B %Y')}. "
                     "Please update the existing budget instead."
                 )
-        
+
         return cleaned_data
 
 class UserRegisterForm(UserCreationForm):
@@ -87,4 +87,29 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2'] 
+        fields = ['username', 'email', 'password1', 'password2']
+
+class ExportFilterForm(forms.Form):
+    start_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        label="Start Date"
+    )
+    end_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        label="End Date"
+    )
+    category = forms.ChoiceField(
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Category"
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            categories = Category.objects.filter(user=user)
+            category_choices = [('', 'All Categories')] + [(cat.id, cat.name) for cat in categories]
+            self.fields['category'].choices = category_choices
