@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
-{% block extrahead %}
-<!-- Chart.js library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-{% endblock %}
-
 {% block title %}Dashboard - Budget Tracker{% endblock %}
 
 {% block content %}
@@ -156,6 +151,7 @@
 {% block extra_js %}
 {{ block.super }}
 <script>
+console.log("Initializing charts..."); // Debug log
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Chart initialization starting"); // Debug log
 
