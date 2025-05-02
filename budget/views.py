@@ -311,9 +311,13 @@ def export_csv(request):
         if category:  # Only filter by category if a specific category is selected
             transactions = transactions.filter(category_id=category)
 
+        # Generate a filename with the current date and time
+        current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        filename = f"transactions_{current_time}.csv"
+
         # CSV response logic
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
         writer = csv.writer(response)
         writer.writerow(['Title', 'Amount', 'Type', 'Category', 'Date', 'Notes'])
         for transaction in transactions:
@@ -322,7 +326,7 @@ def export_csv(request):
                 transaction.amount,
                 transaction.transaction_type,
                 transaction.category.name if transaction.category else '',
-                transaction.date,
+                transaction.date.strftime('%Y-%m-%d'),  # Format the date
                 transaction.notes,
             ])
         return response

@@ -3,9 +3,9 @@
 {% block title %}Export Transactions{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Export Transactions</h5>
+<div class="card custom-card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightpink">
+        <h5 class="card-title mb-0">Export Transactions</h5>
     </div>
     <div class="card-body">
         <form method="get" action="{% url 'budget:export-csv' %}">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Export CSV</button>
+            <button type="submit" class="btn btn-primary custom-btn-fuchsia">Export CSV</button>
         </form>
     </div>
 </div>
