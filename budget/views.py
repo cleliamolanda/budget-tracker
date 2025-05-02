@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -47,7 +48,12 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except IntegrityError:
+            inputted_category = form.cleaned_data.get('name')
+            form.add_error('name', f"The category {inputted_category} already exists.")
+            return self.form_invalid(form)
 
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
