@@ -34,9 +34,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'budget:budget-list' %}">Budgets</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'budget:export-csv' %}">Export</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
