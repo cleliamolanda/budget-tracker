@@ -115,4 +115,34 @@ To run the development server:
 python manage.py runserver
 ```
 
-The API will be available at: `http://localhost:8000/api/`
+The API will be available at `http://localhost:8000/api/`
+
+## Team Contributions
+
+### Randall
+- Set up the workspace environment
+- Designed navigation bar
+- Designed general layout of the **Budgets List**
+- Ensured application responsiveness across devices
+- Ensured app reactivity (dynamic updates and state handling)
+
+### Clay
+- UI/UX Design
+- Designed **Login** and **Register** pages (UI/UX)
+- Created general layout for **Dashboard** and **Transactions**
+- Developed consistent general styles:
+  - Cards
+  - Forms
+  - Tables
+  - Buttons
+  - Icons
+  - Brand logo
+- Implemented export functionality for income/expense data (CSV)
+
+### Jade
+- Developed analytics visualizations (charts)
+- Ensured correct currency formatting and human-readable date display
+- Added accessibility features (ARIA labels)
+
+### All Members
+- Collaborated to improve overall code quality
