@@ -3,37 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Budget Tracker{% endblock %}</title>
+    <title>{% block title %}Budget Co.{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_dashboard.css' %}">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body style="background: radial-gradient(64.87% 195.86% at 45.36% 68.1%, rgba(255, 175, 204, 0.47) 0%, rgba(189, 224, 254, 0.47) 100%) !important;">
+    <nav class="navbar navbar-expand-lg navbar-dark custom-pink-bg">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'budget:dashboard' %}">Budget Tracker</a>
+            <a class="navbar-brand custom-app-name-style" href="{% url 'budget:dashboard' %}" aria-label="Budget Co. Logo">Budget Co.</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Dashboard Tab">
                         <a class="nav-link" href="{% url 'budget:dashboard' %}">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Transactions Tab">
                         <a class="nav-link" href="{% url 'budget:transaction-list' %}">Transactions</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'budget:category-list' %}">Categories</a>
-                    </li>
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Budgets Tab">
                         <a class="nav-link" href="{% url 'budget:budget-list' %}">Budgets</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="nav-link">Welcome, {{ user.username }}</span>
+                            <span class="nav-link" aria-label="Welcome, {{ user.username }}">Welcome, {{ user.username }} </span>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" aria-label="Logout">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="nav-link">Logout</button>
@@ -61,7 +66,10 @@
         {% block content %}
         {% endblock %}
     </div>
+    {% block extra_js %} {% endblock %}
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </body>
-</html> 
+</html>

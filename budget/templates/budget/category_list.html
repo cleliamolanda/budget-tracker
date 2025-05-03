@@ -3,38 +3,38 @@
 {% block title %}{{ title }} - Budget Tracker{% endblock %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">{{ title }}</h5>
-        <a href="{% url create_url %}" class="btn btn-primary btn-sm">Add New</a>
+<div class="card custom-card">
+    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightskyblue" aria-label="Categories List Header">
+        <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
+        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-skyblue" aria-label="Add a New Category">+ Add New</a>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table">
+    <div class="card-body" role="table" aria-label="Table of Categories">
+        <div class="table-responsive" role="table" aria-label="Table of Categories">
+            <table class="table custom-no-bg">
                 <thead>
-                    <tr>
+                    <tr class="custom-text-align-center">
                         {% for header in headers %}
-                            <th>{{ header }}</th>
+                            <th class="custom-col-name-skyblue" scope="col">{{ header }}</th>
                         {% endfor %}
-                        <th>Actions</th>
+                        <th class="custom-col-name-skyblue" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for category in object_list %}
-                        <tr>
-                            <td>{{ category.name }}</td>
-                            <td>{{ category.created_at|date:"Y-m-d H:i" }}</td>
-                            <td>{{ category.updated_at|date:"Y-m-d H:i" }}</td>
+                        <tr class="custom-text-align-center">
+                            <td class="custom-text-blk">{{ category.name }}</td>
+                            <td class="custom-text-blk">{{ category.created_at|date:"F j, Y" }}</td>
+                            <td class="custom-text-blk">{{ category.updated_at|date:"F j, Y" }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                <div class="btn-group" role="group" aria-label="Categories Actions">
+                                    <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ category.name }}">Edit</a>
+                                    <a href="{% url delete_url category.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn" aria-label="Delete {{ category.name }}">Delete</a>
                                 </div>
                             </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="{{ headers|length|add:1 }}" class="text-center">No categories found.</td>
+                            <td colspan="{{ headers|length|add:1 }}" class="text-center" aria-live="polite">No categories found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -42,4 +42,4 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

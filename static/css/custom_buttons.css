@@ -1,0 +1,59 @@
+.custom-btn-fuchsia {
+    background-color: #C23E6E;
+    border-color: #C23E6E;
+}
+
+.custom-btn-fuchsia:hover {
+    background-color: #d45b8c;
+    border-color: #d45b8c;
+}
+
+.custom-btn-purple {
+    background-color: #B95FEB;
+    border-color: #B95FEB;
+}
+
+.custom-btn-purple:hover {
+    background-color: #c684ea;
+    border-color: #c684ea;
+}
+
+.custom-btn-skyblue {
+    background-color: #48A8FB;
+    border-color: #48A8FB;
+}
+
+.custom-btn-skyblue:hover {
+    background-color: #6cb2eb;
+    border-color: #6cb2eb;
+}
+
+.custom-btn-pink {
+    background-color: #FF93BA;
+    border-color: #FF93BA;
+}
+
+.custom-btn-pink:hover {
+    background-color: #ffafcc;
+    border-color: #ffafcc;
+}
+
+.custom-edit-btn {
+    color: #48A8FB;
+    border-color: #48A8FB;
+}
+
+.custom-edit-btn:hover {
+    background-color: #48A8FB;
+    border-color: #48A8FB;
+}
+
+.custom-delete-btn {
+    color: rgb(214, 66, 66);
+    border-color: rgb(214, 66, 66);
+}
+
+.custom-delete-btn:hover {
+    background-color: rgb(214, 66, 66);
+    border-color: rgb(214, 66, 66);
+}

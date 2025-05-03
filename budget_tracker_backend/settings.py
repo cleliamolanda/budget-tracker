@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     "budget",
     "crispy_forms",
     "crispy_bootstrap5",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [

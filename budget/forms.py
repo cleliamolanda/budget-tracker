@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -46,11 +48,12 @@ class BudgetForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'class': 'form-control',
-                'type': 'date',
-                'placeholder': 'YYYY-MM-DD'
+                'type': 'month',
+                'placeholder': 'YYYY-MM'
             }
         ),
-        input_formats=['%Y-%m-%d']
+        input_formats=['%Y-%m'],
+        help_text="Select year and month"
     )
 
     class Meta:
@@ -61,11 +64,15 @@ class BudgetForm(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
 
+    def clean_month(self):
+        month = self.cleaned_data['month']
+        return month.replace(day=1)
+
     def clean(self):
         cleaned_data = super().clean()
         category = cleaned_data.get('category')
         month = cleaned_data.get('month')
-        
+
         if category and month and self.user:
             # Check if a budget already exists for this user, category, and month
             existing_budget = Budget.objects.filter(
@@ -73,13 +80,13 @@ class BudgetForm(forms.ModelForm):
                 category=category,
                 month=month
             ).first()
-            
+
             if existing_budget and existing_budget != self.instance:
                 raise ValidationError(
                     f"A budget for {category.name} already exists for {month.strftime('%B %Y')}. "
                     "Please update the existing budget instead."
                 )
-        
+
         return cleaned_data
 
 class UserRegisterForm(UserCreationForm):
@@ -87,4 +94,29 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2'] 
+        fields = ['username', 'email', 'password1', 'password2']
+
+class ExportFilterForm(forms.Form):
+    start_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        label="Start Date"
+    )
+    end_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        label="End Date"
+    )
+    category = forms.ChoiceField(
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Category"
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            categories = Category.objects.filter(user=user)
+            category_choices = [('', 'All Categories')] + [(cat.id, cat.name) for cat in categories]
+            self.fields['category'].choices = category_choices

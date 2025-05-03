@@ -1,0 +1,43 @@
+{% extends 'budget/base.html' %}
+
+{% block title %}Export {{ export_type|capfirst }}{% endblock %}
+
+{% block content %}
+<div class="card custom-card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightpink">
+        <h5 class="card-title mb-0">Export {{ export_type|capfirst }}</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" action="{% url 'budget:export-csv' %}">
+            <input type="hidden" name="download" value="true">
+            <input type="hidden" name="type" value="{{ export_type }}">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        {{ form.end_date.label_tag }}
+                        {{ form.end_date }}
+                    </div>
+                </div>
+                {% if export_type == 'transactions' %}
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        {{ form.category.label_tag }}
+                        {{ form.category }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="{% if export_type == 'transactions' %}{% url 'budget:transaction-list' %}{% else %}{% url 'budget:budget-list' %}{% endif %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary custom-btn-fuchsia">Export CSV</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

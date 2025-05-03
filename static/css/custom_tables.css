@@ -1,0 +1,15 @@
+.custom-no-bg {
+    --bs-table-bg: transparent !important;
+}
+
+.custom-col-name-fuchsia {
+    color: #C23E6E !important;
+}
+
+.custom-col-name-skyblue {
+    color: #48A8FB !important;
+}
+
+.custom-col-name-purple {
+    color: #B95FEB !important;
+}
