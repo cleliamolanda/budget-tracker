@@ -139,4 +139,4 @@ The API will be available at `http://localhost:8000/api/`
 - Added accessibility features (ARIA labels)
 
 ## All Members
-- Collaborated to improve overall code quality
+- Collaborated to improve overall code quality and accessibility
