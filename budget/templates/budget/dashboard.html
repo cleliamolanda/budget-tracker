@@ -2,35 +2,32 @@
 {% load budget_extras %}
 {% load static %}
 
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" href="{% static 'css/custom_dashboard.css' %}">
-{% endblock %}
-
 {% block title %}Dashboard - Budget Tracker{% endblock %}
 
 {% block content %}
 <div class="row">
-    <!-- Monthly Summary (Pie Chart) -->
-    <div class="col-md-4">
+    <!-- Monthly Summary (Bar Chart) -->
+    <div class="col-md-8">
         <div class="card custom-card mb-4">
-            <div class="card-header custom-card-header-skyblue custom-card-header-border">
+            <div class="card-header custom-card-header-skyblue custom-card-header-border" aria-label="Monthly Summary Header">
                 <h5 class="card-title custom-text-blk mb-0">Monthly Summary</h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="monthlySummaryChart"></canvas>
+                <div class="chart-container" style="min-height: 300px;">
+                    <canvas id="monthlySummaryChart" aria-label="Bar Chart Showing Income and Expenses for Recent Months" role="img"></canvas>
                 </div>
-                <div class="mt-3">
-                    <div class="mb-2">
-                        <h6>Income</h6>
+                <div class="mt-3 row">
+                    {% now "F" as current_month %}
+                    <div class="col-md-4" aria-label="Current Month Income">
+                        <h6>{{ current_month }} Income</h6>
                         <p class="text-success">{{ income|peso_format }}</p>
                     </div>
-                    <div class="mb-2">
-                        <h6>Expenses</h6>
+                    <div class="col-md-4" aria-label="Current Month Income">
+                        <h6>{{ current_month }} Expenses</h6>
                         <p class="text-danger">{{ expenses|peso_format }}</p>
                     </div>
-                    <div>
-                        <h6>Balance</h6>
+                    <div class="col-md-4" aria-label="Current Month Income">
+                        <h6>{{ current_month }} Balance</h6>
                         <p class="{% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">
                             {{ balance|peso_format }}
                         </p>
@@ -40,18 +37,18 @@
         </div>
     </div>
 
-    <!-- Category Expenses (Bar Chart) -->
-    <div class="col-md-8">
+    <!-- Category Expenses (Pie Chart) -->
+    <div class="col-md-4">
         <div class="card custom-card mb-4">
-            <div class="card-header custom-card-header-lightskyblue custom-card-header-border">
+            <div class="card-header custom-card-header-lightskyblue custom-card-header-border" aria-label="Category Expenses Header">
                 <h5 class="card-title custom-text-blk mb-0">Category Expenses</h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="categoryExpensesChart"></canvas>
+                <div class="chart-container" style="min-height: 250px;">
+                    <canvas id="categoryExpensesChart" aria-label="Pie Chart Showing Expenses Grouped by Category for Current Month" role="img"></canvas>
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table custom-no-bg">
+                    <table class="table custom-no-bg" >
                         <thead>
                             <tr class="custom-text-align-center">
                                 <th class="custom-col-name-skyblue">Category</th>
@@ -81,11 +78,11 @@
 <div class="row">
     <div class="col-12">
         <div class="card custom-card">
-            <div class="card-header d-flex justify-content-between align-items-center custom-card-header-purple custom-card-header-border">
+            <div class="card-header d-flex justify-content-between align-items-center custom-card-header-purple custom-card-header-border" aria-label="Monthly Budgets Header">
                 <h5 class="card-title custom-text-blk mb-0">Monthly Budgets</h5>
-                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add Budget</a>
+                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple" aria-label="Add a New Budget">+ Add Budget</a>
             </div>
-            <div class="card-body">
+            <div class="card-body" aria-label="Monthly Budget Summary by Category">
                 <div class="table-responsive">
                     <table class="table custom-no-bg">
                         <thead>
@@ -121,101 +118,134 @@
     </div>
 </div>
 
-{% if settings.DEBUG %}
-<!-- Debug information (only visible in DEBUG mode) -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-warning">
-                <h5 class="card-title">Debug Information</h5>
-            </div>
-            <div class="card-body">
-                <div id="chart-debug">
-                    <p><strong>Chart Data:</strong></p>
-                    <p>Income: {{ income }}</p>
-                    <p>Expenses: {{ expenses }}</p>
-                    <p>Category Names: {{ category_names|safe }}</p>
-                    <p>Category Values: {{ category_values|safe }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-
 <!-- Store data for charts in JSON format -->
 {{ category_names|json_script:"category-names" }}
 {{ category_values|json_script:"category-values" }}
+{% if monthly_data %}{{ monthly_data|json_script:"monthly-data" }}{% endif %}
 {% endblock %}
 
 {% block extra_js %}
 {{ block.super }}
 <script>
-console.log("Initializing charts..."); // Debug log
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("Chart initialization starting"); // Debug log
-
-    // ----- Monthly Summary Pie Chart -----
+    // ----- Monthly Summary Bar Chart -----
     const monthlySummaryCanvas = document.getElementById('monthlySummaryChart');
-    if (!monthlySummaryCanvas) {
-        console.error("Could not find monthlySummaryChart canvas element");
-        return;
-    }
-
     const monthlySummaryCtx = monthlySummaryCanvas.getContext('2d');
 
-    // Get financial data with proper error handling
-    const income = parseFloat('{{ income|default:0 }}') || 0;
-    const expenses = parseFloat('{{ expenses|default:0 }}') || 0;
-    const balance = parseFloat('{{ balance|default:0 }}') || 0;
+    // Get current month financial data with proper error handling
+    const currentMonthIncome = parseFloat('{{ income|default:0 }}') || 0;
+    const currentMonthExpenses = parseFloat('{{ expenses|default:0 }}') || 0;
+    const currentMonthBalance = parseFloat('{{ balance|default:0 }}') || 0;
 
-    console.log("Financial data:", { income, expenses, balance }); // Debug log
+    // Get monthly data from JSON if available
+    let monthlyData = [];
+    try {
+        // Check if monthly data was passed from the backend
+        const monthlyDataElement = document.getElementById('monthly-data');
+        if (monthlyDataElement) {
+            monthlyData = JSON.parse(monthlyDataElement.textContent || '[]');
+        }
+    } catch (error) {
+        // Fallback to current month only if there's an error
+        monthlyData = [{
+            label: new Date().toLocaleString('default', { month: 'short' }) + ' ' + new Date().getFullYear(),
+            income: currentMonthIncome,
+            expenses: currentMonthExpenses,
+            balance: currentMonthBalance
+        }];
+    }
 
     // Make sure there's data to display
-    if (income === 0 && expenses === 0 && balance === 0) {
+    if (!Array.isArray(monthlyData) || monthlyData.length === 0 || monthlyData.every(data => data.income === 0 && data.expenses === 0)) {
+        const scale = window.devicePixelRatio || 1;
+        const width = monthlySummaryCanvas.offsetWidth;
+        const height = monthlySummaryCanvas.offsetHeight;
+
+        monthlySummaryCanvas.width = width * scale;
+        monthlySummaryCanvas.height = height * scale;
+        monthlySummaryCtx.scale(scale, scale);
+
         // Show a message in the canvas if there's no data
-        monthlySummaryCtx.font = '14px Helvetica Now Display, sans-serif';
+        monthlySummaryCtx.clearRect(0, 0, width, height);
+        monthlySummaryCtx.font = '12px Helvetica Now Display, sans-serif';
         monthlySummaryCtx.fillStyle = '#0b5ed7';
         monthlySummaryCtx.textAlign = 'center';
-        monthlySummaryCtx.fillText('No financial data available for this month', monthlySummaryCanvas.width / 2, monthlySummaryCanvas.height / 2);
+        monthlySummaryCtx.textBaseline = 'middle';
+        monthlySummaryCtx.fillText('No financial data available', width / 2, height / 2);
     } else {
-        // Create pie chart
+        // Prepare data for the chart
+        const labels = monthlyData.map(month => month.label);
+        const incomeData = monthlyData.map(month => month.income || 0);
+        const expensesData = monthlyData.map(month => month.expenses || 0);
+
+        // Create grouped bar chart for income vs expenses comparison over time
         new Chart(monthlySummaryCtx, {
-            type: 'pie',
+            type: 'bar',
             data: {
-                labels: ['Income', 'Expenses', balance >= 0 ? 'Balance' : 'Deficit'],
-                datasets: [{
-                    data: [
-                        income || 0.01, // Use small value if 0 to avoid Chart.js errors
-                        expenses || 0.01,
-                        Math.abs(balance) || 0.01
-                    ],
-                    backgroundColor: [
-                        'rgba(187, 219, 155, 0.7)',  // Green for income
-                        'rgba(235, 111, 128, 0.7)',  // Red for expenses
-                        balance >= 0 ? 'rgba(155, 186, 232, 0.7)' : 'rgba(255, 193, 7, 0.7)'  // Blue/Yellow for balance
-                    ],
-                    borderColor: [
-                        'rgba(187, 219, 155, 1)',
-                        'rgba(235, 111, 128, 1)',
-                        balance >= 0 ? 'rgba(155, 186, 232, 1)' : 'rgba(255, 193, 7, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Income',
+                        data: incomeData,
+                        backgroundColor: 'rgba(187, 219, 155, 0.7)',  // Green for income
+                        borderColor: 'rgba(187, 219, 155, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Expenses',
+                        data: expensesData,
+                        backgroundColor: 'rgba(235, 111, 128, 0.7)',   // Red for expenses
+                        borderColor: 'rgba(235, 111, 128, 1)',
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₱' + value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
-                        position: 'bottom',
+                        display: true,
+                        position: 'top'
                     },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const label = context.label || '';
+                                const label = context.dataset.label || '';
                                 const value = parseFloat(context.raw).toFixed(2);
-                                return `${label}: ₱${value}`;
+                                const formattedValue = '₱' + parseFloat(value).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
+                                return `${label}: ${formattedValue}`;
+                            },
+                            afterBody: function(tooltipItems) {
+                                const dataIndex = tooltipItems[0].dataIndex;
+                                const income = monthlyData[dataIndex].income || 0;
+                                const expenses = monthlyData[dataIndex].expenses || 0;
+                                const balance = income - expenses;
+                                const formattedBalance = '₱' + balance.toLocaleString('en-US', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
+                                const balanceClass = balance >= 0 ? 'positive' : 'negative';
+                                return [`Balance: ${formattedBalance}`];
                             }
                         }
                     }
@@ -224,13 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ----- Category Expenses Bar Chart -----
+    // ----- Category Expenses Pie Chart -----
     const categoryCanvas = document.getElementById('categoryExpensesChart');
-    if (!categoryCanvas) {
-        console.error("Could not find categoryExpensesChart canvas element");
-        return;
-    }
-
     const categoryCtx = categoryCanvas.getContext('2d');
 
     try {
@@ -238,18 +263,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoryNamesElement = document.getElementById('category-names');
         const categoryValuesElement = document.getElementById('category-values');
 
-        if (!categoryNamesElement || !categoryValuesElement) {
-            console.error("Could not find category data elements");
-            return;
-        }
-
         const categoryNames = JSON.parse(categoryNamesElement.textContent || '[]');
         const categoryValues = JSON.parse(categoryValuesElement.textContent || '[]');
 
-        console.log("Category data:", { categoryNames, categoryValues }); // Debug log
-
         // Check if there's data to display
-        if (categoryNames.length === 0 || categoryValues.length === 0) {
+        if (categoryNames.length === 0 || categoryValues.length === 0 || categoryValues.every(val => val === 0)) {
             // Set the canvas dimensions
             const scale = window.devicePixelRatio || 1;
             const width = categoryCanvas.offsetWidth;
@@ -261,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Show a message in the canvas if there's no data
             categoryCtx.clearRect(0, 0, width, height);
-            categoryCtx.font = '10px Helvetica Now Display, sans-serif';
+            categoryCtx.font = '13px Helvetica Now Display, sans-serif';
             categoryCtx.fillStyle = '#0b5ed7';
             categoryCtx.textAlign = 'center';
             categoryCtx.textBaseline = 'middle';
@@ -292,40 +310,70 @@ document.addEventListener('DOMContentLoaded', function() {
                 categoryCtx.fillText(lines[j].trim(), width / 2, startY + j * lineHeight);
             }
         } else {
-            // Create bar chart
+            // Generate an array of colors for the pie chart segments
+            const generateColorArray = (count) => {
+                const baseColors = [
+                    'rgba(54, 162, 235, 0.7)',   // Blue
+                    'rgba(255, 99, 132, 0.7)',   // Red
+                    'rgba(255, 206, 86, 0.7)',   // Yellow
+                    'rgba(75, 192, 192, 0.7)',   // Teal
+                    'rgba(153, 102, 255, 0.7)',  // Purple
+                    'rgba(255, 159, 64, 0.7)',   // Orange
+                    'rgba(46, 204, 113, 0.7)',   // Green
+                    'rgba(231, 76, 60, 0.7)'     // Crimson
+                ];
+
+                const borderColors = baseColors.map(color => color.replace('0.7', '1'));
+
+                // If we need more colors than in our base array, create variations
+                const backgroundColors = [];
+                const borderColorsArray = [];
+
+                for (let i = 0; i < count; i++) {
+                    const index = i % baseColors.length;
+                    backgroundColors.push(baseColors[index]);
+                    borderColorsArray.push(borderColors[index]);
+                }
+
+                return {
+                    backgroundColors,
+                    borderColors: borderColorsArray
+                };
+            };
+
+            const colors = generateColorArray(categoryNames.length);
+
+            // Create pie chart for category expenses
             new Chart(categoryCtx, {
-                type: 'bar',
+                type: 'pie',
                 data: {
                     labels: categoryNames,
                     datasets: [{
-                        label: 'Amount (₱)',
                         data: categoryValues,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: colors.backgroundColors,
+                        borderColor: colors.borderColors,
                         borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '₱' + value.toFixed(2);
-                                }
-                            }
-                        }
-                    },
                     plugins: {
                         legend: {
-                            display: false
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return '₱' + parseFloat(context.raw).toFixed(2);
+                                    const label = context.label || '';
+                                    const value = parseFloat(context.raw).toFixed(2);
+                                    const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + parseFloat(val), 0);
+                                    const percentage = Math.round((context.raw / total) * 100);
+                                    return `${label}: ₱${value} (${percentage}%)`;
                                 }
                             }
                         }
@@ -334,7 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     } catch (error) {
-        console.error("Error initializing category chart:", error);
         // Set the canvas dimensions
         const scale = window.devicePixelRatio || 1;
         const width = categoryCanvas.offsetWidth;

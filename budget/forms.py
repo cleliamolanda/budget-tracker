@@ -46,11 +46,12 @@ class BudgetForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'class': 'form-control',
-                'type': 'date',
-                'placeholder': 'YYYY-MM-DD'
+                'type': 'month',
+                'placeholder': 'YYYY-MM'
             }
         ),
-        input_formats=['%Y-%m-%d']
+        input_formats=['%Y-%m'],
+        help_text="Select year and month"
     )
 
     class Meta:
@@ -60,6 +61,10 @@ class BudgetForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
+
+    def clean_month(self):
+        month = self.cleaned_data['month']
+        return month.replace(day=1)
 
     def clean(self):
         cleaned_data = super().clean()
