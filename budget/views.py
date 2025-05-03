@@ -37,13 +37,13 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'budget/form.html'
-    success_url = reverse_lazy('budget:category-list')
+    success_url = reverse_lazy('budget:budget-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create Category'
         context['submit_text'] = 'Create'
-        context['cancel_url'] = reverse_lazy('budget:category-list')
+        context['cancel_url'] = reverse_lazy('budget:budget-list')
         return context
 
     def form_valid(self, form):
@@ -59,23 +59,23 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'budget/form.html'
-    success_url = reverse_lazy('budget:category-list')
+    success_url = reverse_lazy('budget:budget-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update Category'
         context['submit_text'] = 'Update'
-        context['cancel_url'] = reverse_lazy('budget:category-list')
+        context['cancel_url'] = reverse_lazy('budget:budget-list')
         return context
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'budget/confirm_delete.html'
-    success_url = reverse_lazy('budget:category-list')
+    success_url = reverse_lazy('budget:budget-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cancel_url'] = reverse_lazy('budget:category-list')
+        context['cancel_url'] = reverse_lazy('budget:budget-list')
         return context
 
 class TransactionListView(LoginRequiredMixin, ListView):
@@ -160,6 +160,7 @@ class BudgetListView(LoginRequiredMixin, ListView):
         context['create_url'] = 'budget:budget-create'
         context['update_url'] = 'budget:budget-update'
         context['delete_url'] = 'budget:budget-delete'
+        context['categories'] = Category.objects.filter(user=self.request.user)
         return context
 
 class BudgetCreateView(LoginRequiredMixin, CreateView):
