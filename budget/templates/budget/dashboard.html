@@ -104,7 +104,7 @@
 
                                 <td>
                                     {% if remaining < 0 %}
-                                        <span style="color: #d10d0d;">&#9888; </span>
+                                        <span style="color: #d10d0d;" title="You have exceeded the budget for {{ budget.category.name }}">&#9888; </span>
                                     {% endif %}
                                     {{ budget.category.name }}
                                 </td>
