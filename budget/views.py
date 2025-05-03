@@ -312,9 +312,20 @@ def export_csv(request):
     export_type = request.GET.get('type', 'transactions')  # Default to transactions
     current_time = datetime.now().strftime('%Y%m%d_%H%M%S')  # Format: YYYYMMDD_HHMMSS
 
+    # Parse date filters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
     if export_type == 'budgets':
         # Export budgets data
         budgets = Budget.objects.filter(user=request.user)
+
+        # Apply date range filter if provided
+        if start_date:
+            budgets = budgets.filter(month__gte=start_date)
+        if end_date:
+            budgets = budgets.filter(month__lte=end_date)
+
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = f'attachment; filename="budgets_{current_time}.csv"'
         writer = csv.writer(response)
@@ -325,6 +336,13 @@ def export_csv(request):
 
     # Default: Export transactions
     transactions = Transaction.objects.filter(user=request.user)
+
+    # Apply date range filter if provided
+    if start_date:
+        transactions = transactions.filter(date__gte=start_date)
+    if end_date:
+        transactions = transactions.filter(date__lte=end_date)
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="transactions_{current_time}.csv"'
     writer = csv.writer(response)
