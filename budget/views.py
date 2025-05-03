@@ -164,7 +164,7 @@ class BudgetListView(LoginRequiredMixin, ListView):
                 queryset = queryset.filter(month__year=selected_month.year, month__month=selected_month.month)
             except ValueError:
                 pass  # Invalid date format
-        
+
         if category_filter:
             queryset = queryset.filter(category__id=category_filter)
 
@@ -178,7 +178,7 @@ class BudgetListView(LoginRequiredMixin, ListView):
         context['update_url'] = 'budget:budget-update'
         context['delete_url'] = 'budget:budget-delete'
         context['categories'] = Category.objects.filter(user=self.request.user)
-        
+
         # Add current month filter default
         current_month = datetime.now().strftime('%Y-%m')
         context['current_month'] = current_month
@@ -390,24 +390,6 @@ def export_csv(request):
     # Parse date filters
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-
-    if export_type == 'budgets':
-        # Export budgets data
-        budgets = Budget.objects.filter(user=request.user)
-
-        # Apply date range filter if provided
-        if start_date:
-            budgets = budgets.filter(month__gte=start_date)
-        if end_date:
-            budgets = budgets.filter(month__lte=end_date)
-
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="budgets_{current_time}.csv"'
-        writer = csv.writer(response)
-        writer.writerow(['Category', 'Amount', 'Month'])
-        for budget in budgets:
-            writer.writerow([budget.category.name, budget.amount, budget.month.strftime('%Y-%m')])
-        return response
 
     # Default: Export transactions
     transactions = Transaction.objects.filter(user=request.user)

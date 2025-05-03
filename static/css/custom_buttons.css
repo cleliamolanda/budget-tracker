@@ -1,6 +1,6 @@
 .custom-btn-fuchsia {
-    background-color: #C23E6E;
-    border-color: #C23E6E;
+    background-color: #91113f;
+    border-color: #91113f;
 }
 
 .custom-btn-fuchsia:hover {
@@ -9,8 +9,8 @@
 }
 
 .custom-btn-purple {
-    background-color: #B95FEB;
-    border-color: #B95FEB;
+    background-color: #9937cf;
+    border-color: #9937cf;
 }
 
 .custom-btn-purple:hover {
@@ -19,8 +19,8 @@
 }
 
 .custom-btn-skyblue {
-    background-color: #48A8FB;
-    border-color: #48A8FB;
+    background-color: #328edd;
+    border-color: #328edd;
 }
 
 .custom-btn-skyblue:hover {
@@ -39,13 +39,13 @@
 }
 
 .custom-edit-btn {
-    color: #48A8FB;
-    border-color: #48A8FB;
+    color: #328edd;
+    border-color: #328edd;
 }
 
 .custom-edit-btn:hover {
-    background-color: #48A8FB;
-    border-color: #48A8FB;
+    background-color: #328edd;
+    border-color: #328edd;
 }
 
 .custom-delete-btn {

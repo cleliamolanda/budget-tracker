@@ -14,7 +14,7 @@
 
 body {
     background-color: #f8f9fa;
-    font-family: 'Helvetica Now Display', sans-serif;
+    font-family: 'Helvetica Now Display', Arial, sans-serif;
 }
 
 /* .custom-gradient-bg-2 {
@@ -47,7 +47,7 @@ body {
 }
 
 .custom-text-fuchsia {
-    color: #C23E6E !important;
+    color: #91113f;
 }
 
 .form-group {
