@@ -1,57 +1,95 @@
 # Budget Co. Backend
 
-A Django REST framework backend for a personal budget tracking application.
+A Django framework backend for a personal budget tracking application.
+
+---
 
 ## Features
 
-- User authentication with JWT
-- CRUD operations for categories, transactions, and budgets
-- Monthly financial summaries
-- Category-based expense tracking
-- Budget setting and monitoring
+- **User Authentication**: Secure login and token-based authentication using JWT.
+- **Budget Management**: Create, update, and monitor budgets.
+- **Transaction Tracking**: Record and categorize expenses and income.
+- **Monthly Summaries**: View financial summaries for the current month.
+- **Category Insights**: Analyze expenses by category.
 
-## Setup
+- **User Dashboard**: View budgets, transactions, and summaries.
+- **Interactive Charts**: Visualize spending trends and category insights.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **Real-Time Updates**: Reflect changes in budgets and transactions instantly.
 
-1. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+---
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+## Setup Instructions
 
-3. Run migrations:
-```bash
-python manage.py migrate
-```
+Follow these steps to set up the project locally:
 
-4. Create a superuser:
-```bash
-python manage.py createsuperuser
-```
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Dallss/budget-tracker.git
+   cd budget-tracker
+   ```
 
-5. Run the development server:
-```bash
-python manage.py runserver
-```
+2. **Create a Virtual Environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-## API Endpoints
+3. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run Migrations**:
+   ```bash
+   python manage.py migrate
+   ```
+
+5. **Create a Superuser**:
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+6. **Start the Development Server**:
+   ```bash
+   python manage.py runserver
+   ```
+
+   The API will be available at: `http://localhost:8000/api/`
+
+---
+
+## User Guide
 
 ### Authentication
-- `POST /api/token/` - Get JWT token
-- `POST /api/token/refresh/` - Refresh JWT token
 
-### Categories
+All API endpoints require authentication using JWT tokens. Obtain a token by logging in:
+
+- **Get JWT Token**:
+  `POST /api/token/`
+  Request a token by providing valid user credentials.
+
+- **Refresh JWT Token**:
+  `POST /api/token/refresh/`
+  Refresh an expired token.
+
+Include the token in the `Authorization` header for all requests:
+```
+Authorization: Bearer <your_token>
+```
+
+---
+
+### API Endpoints
+
+#### Categories
 - `GET /api/categories/` - List all categories
 - `POST /api/categories/` - Create a new category
 - `GET /api/categories/{id}/` - Get category details
 - `PUT /api/categories/{id}/` - Update category
 - `DELETE /api/categories/{id}/` - Delete category
 
-### Transactions
+#### Transactions
 - `GET /api/transactions/` - List all transactions
 - `POST /api/transactions/` - Create a new transaction
 - `GET /api/transactions/{id}/` - Get transaction details
@@ -60,7 +98,7 @@ python manage.py runserver
 - `GET /api/transactions/monthly_summary/` - Get monthly summary
 - `GET /api/transactions/category_summary/` - Get category-wise summary
 
-### Budgets
+#### Budgets
 - `GET /api/budgets/` - List all budgets
 - `POST /api/budgets/` - Create a new budget
 - `GET /api/budgets/{id}/` - Get budget details
@@ -68,12 +106,7 @@ python manage.py runserver
 - `DELETE /api/budgets/{id}/` - Delete budget
 - `GET /api/budgets/current_month/` - Get current month's budgets
 
-## Authentication
-
-All endpoints require authentication using JWT tokens. Include the token in the Authorization header:
-```
-Authorization: Bearer <your_token>
-```
+---
 
 ## Development
 
@@ -82,4 +115,4 @@ To run the development server:
 python manage.py runserver
 ```
 
-The API will be available at `http://localhost:8000/api/`
+The API will be available at: `http://localhost:8000/api/`
