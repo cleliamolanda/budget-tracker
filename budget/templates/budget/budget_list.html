@@ -7,13 +7,13 @@
 <div class="d-flex" style="gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
     <!-- Categories Sidebar -->
     <div class="card custom-card categories-sidebar" style="min-width: 250px; max-height: 600px; overflow-y: auto;">
-        <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple">
+        <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightskyblue">
             <h5 class="card-title custom-text-blk mb-0">Categories</h5>
             <div class="custom-btn-group">
-                <a href="{% url 'budget:category-create' %}" class="btn btn-primary btn-sm custom-btn-purple p-1 px-2" title="Add Category" style="font-size: 1rem; line-height: 1;">
+                <a href="{% url 'budget:category-create' %}" class="btn btn-primary btn-sm custom-btn-skyblue p-1 px-2" title="Add Category" style="font-size: 1rem; line-height: 1;">
                     <span style="font-weight: bold; font-size: 1.2em;">&#43;</span>
                 </a>
-                <a href="{% url 'budget:category-list' %}" class="btn btn-secondary btn-sm custom-btn-purple p-1 px-2" title="Edit Categories" style="font-size: 1rem; line-height: 1;">
+                <a href="{% url 'budget:category-list' %}" class="btn btn-secondary btn-sm custom-btn-skyblue p-1 px-2" title="Edit Categories" style="font-size: 1rem; line-height: 1;">
                     <span style="font-weight: bold; font-size: 1.2em;">&#x270E;</span>
                 </a>
             </div>
@@ -58,7 +58,7 @@
                         </select>
 
 
-                        </select>                   
+                        </select>
                         <div class="ms-auto flex" style="min-width: 50px;">
                             <button type="button" onclick="window.location.href='?month={{ current_month }}'" class="btn btn-primary btn-sm custom-btn-purple  m-1">Current Month</button>
                             <button type="button" onclick="window.location.href='?'" class="btn btn-primary btn-sm custom-btn-purple m-1">View All</button>
