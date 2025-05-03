@@ -56,12 +56,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "budget",
-    "crispy_forms",
-    "crispy_bootstrap5",
-    "crispy_forms",
-    "crispy_bootstrap5",
+    "budget",  # Your custom app
+    "crispy_forms",  # For Bootstrap 4 support
+    "crispy_bootstrap5",  # For Bootstrap 5 support
+    "whitenoise.runserver_nostatic",  # Optional if using WhiteNoise for serving static files in development
+    "rest_framework",  # For Django REST framework
 ]
+
 
 MIDDLEWARE = [
     "budget_tracker_backend.middleware.HealthCheckMiddleware",  # First middleware
@@ -150,7 +151,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'budget' / 'static',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
