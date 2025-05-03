@@ -35,7 +35,9 @@
         <div class="card custom-card">
             <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple" aria-label="Budgets List Header">
                 <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
-                <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple" aria-label="Add a New Budget">+ Add New</a>
+                <div class="custom-btn-group">
+                    <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple" aria-label="Add a New Budget">+ Add New</a>
+                </div>
             </div>
             <div class="card-body" role="table" aria-label="Table of Budgets">
                 <div class="row mb-3" style="padding-left: 2vw; padding-right: 2vw;">
@@ -65,7 +67,7 @@
 
                     </form>
                 </div>
-                <div class="table-responsive" role="table" aria-label="Table of Budgets">
+                <div class="table-responsive d-flex flex-column" role="table" aria-label="Table of Budgets">
                     <table class="table custom-no-bg">
                         <thead>
                             <tr class="custom-text-align-center">
@@ -95,6 +97,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <a href="{% url 'budget:export-csv' %}?type=budgets" class="btn btn-primary btn-sm custom-btn-purple ms-auto mt-2">Export</a>
                 </div>
             </div>
         </div>
