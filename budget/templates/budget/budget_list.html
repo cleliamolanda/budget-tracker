@@ -44,8 +44,6 @@
                     <!-- Filter by month and category (automatic on select) -->
 
                     <form method="get" class="d-flex align-items-center">
-
-
                         <label for="month_filter" class="custom-col-name-purple pe-2 fw-bold">Month:</label>
                         <input type="month" id="month_filter" name="month" value="{{ month_filter }}" class="form-control form-control-sm w-25 me-3" onchange="this.form.submit();">
 
@@ -60,6 +58,7 @@
                         </select>
 
 
+                        </select>                   
                         <div class="ms-auto">
                             <button type="button" onclick="window.location.href='?month={{ current_month }}'" class="btn btn-primary btn-sm custom-btn-purple">Current Month</button>
                             <button type="button" onclick="window.location.href='?'" class="btn btn-primary btn-sm custom-btn-purple">View All</button>
