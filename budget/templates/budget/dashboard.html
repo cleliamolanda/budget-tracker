@@ -101,10 +101,10 @@
                                 {% if remaining < 0 %}
                                     style="background-color: rgba(251, 64, 64, 0.261);"
                                 {% endif %}>
-                                
+
                                 <td>
                                     {% if remaining < 0 %}
-                                        <span style="color: red;">&#9888; </span>
+                                        <span style="color: #d10d0d;">&#9888; </span>
                                     {% endif %}
                                     {{ budget.category.name }}
                                 </td>
@@ -121,7 +121,7 @@
                                 <td colspan="4" class="text-center">No budgets set for this month.</td>
                             </tr>
                             {% endfor %}
-                        </tbody>                        
+                        </tbody>
                     </table>
                 </div>
             </div>
