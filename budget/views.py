@@ -377,39 +377,58 @@ def register(request):
 
 @login_required
 def export_csv(request):
-    form = ExportFilterForm(user=request.user, data=request.GET or None)
-    if form.is_valid() and request.GET:
-        # Filter transactions based on form data
-        transactions = Transaction.objects.filter(user=request.user)
-        start_date = form.cleaned_data.get('start_date')
-        end_date = form.cleaned_data.get('end_date')
-        category = form.cleaned_data.get('category')
+    if request.method == 'GET' and not request.GET.get('download'):
+        # Render the export page with the filter form
+        export_type = request.GET.get('type', 'transactions')  # Default to transactions
+        form = ExportFilterForm(user=request.user)
+        return render(request, 'budget/export_csv.html', {'form': form, 'export_type': export_type})
 
+    # Handle CSV export logic
+    export_type = request.GET.get('type', 'transactions')  # Default to transactions
+    current_time = datetime.now().strftime('%Y%m%d_%H%M%S')  # Format: YYYYMMDD_HHMMSS
+
+    # Parse date filters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if export_type == 'budgets':
+        # Export budgets data
+        budgets = Budget.objects.filter(user=request.user)
+
+        # Apply date range filter if provided
         if start_date:
-            transactions = transactions.filter(date__gte=start_date)
+            budgets = budgets.filter(month__gte=start_date)
         if end_date:
-            transactions = transactions.filter(date__lte=end_date)
-        if category:  # Only filter by category if a specific category is selected
-            transactions = transactions.filter(category_id=category)
+            budgets = budgets.filter(month__lte=end_date)
 
-        # Generate a filename with the current date and time
-        current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        filename = f"transactions_{current_time}.csv"
-
-        # CSV response logic
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        response['Content-Disposition'] = f'attachment; filename="budgets_{current_time}.csv"'
         writer = csv.writer(response)
-        writer.writerow(['Title', 'Amount', 'Type', 'Category', 'Date', 'Notes'])
-        for transaction in transactions:
-            writer.writerow([
-                transaction.title,
-                transaction.amount,
-                transaction.transaction_type,
-                transaction.category.name if transaction.category else '',
-                transaction.date.strftime('%Y-%m-%d'),  # Format the date
-                transaction.notes,
-            ])
+        writer.writerow(['Category', 'Amount', 'Month'])
+        for budget in budgets:
+            writer.writerow([budget.category.name, budget.amount, budget.month.strftime('%Y-%m')])
         return response
 
-    return render(request, 'budget/export_csv.html', {'form': form})
+    # Default: Export transactions
+    transactions = Transaction.objects.filter(user=request.user)
+
+    # Apply date range filter if provided
+    if start_date:
+        transactions = transactions.filter(date__gte=start_date)
+    if end_date:
+        transactions = transactions.filter(date__lte=end_date)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="transactions_{current_time}.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Title', 'Amount', 'Type', 'Category', 'Date', 'Notes'])
+    for transaction in transactions:
+        writer.writerow([
+            transaction.title,
+            transaction.amount,
+            transaction.transaction_type,
+            transaction.category.name if transaction.category else '',
+            transaction.date.strftime('%Y-%m-%d'),
+            transaction.notes,
+        ])
+    return response
