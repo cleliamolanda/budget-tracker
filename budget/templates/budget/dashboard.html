@@ -39,7 +39,7 @@
 
     <!-- Category Expenses (Pie Chart) -->
     <div class="col-md-4">
-        <div class="card custom-card mb-4">
+        <div class="card custom-card mb-4" style="max-height: 60vh; overflow: auto;">
             <div class="card-header custom-card-header-lightskyblue custom-card-header-border" aria-label="Category Expenses Header">
                 <h5 class="card-title custom-text-blk mb-0">Category Expenses</h5>
             </div>
@@ -96,21 +96,32 @@
                         <tbody>
                             {% for budget in budgets %}
                             {% with spent=budget_spent|get_item:budget.category.id|default:0 %}
-                            <tr class="custom-text-align-center">
-                                <td>{{ budget.category.name }}</td>
+                            {% with remaining=budget.amount|sub:spent %}
+                            <tr class="custom-text-align-center"
+                                {% if remaining < 0 %}
+                                    style="background-color: rgba(251, 64, 64, 0.261);"
+                                {% endif %}>
+                                
+                                <td>
+                                    {% if remaining < 0 %}
+                                        <span style="color: red;">&#9888; </span>
+                                    {% endif %}
+                                    {{ budget.category.name }}
+                                </td>
                                 <td>{{ budget.amount|peso_format }}</td>
                                 <td>{{ spent|peso_format }}</td>
-                                <td class="{% if budget.amount >= spent %}text-success{% else %}text-danger{% endif %}">
-                                    {{ budget.amount|sub:spent|peso_format }}
+                                <td class="{% if remaining >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                    {{ remaining|peso_format }}
                                 </td>
                             </tr>
+                            {% endwith %}
                             {% endwith %}
                             {% empty %}
                             <tr>
                                 <td colspan="4" class="text-center">No budgets set for this month.</td>
                             </tr>
                             {% endfor %}
-                        </tbody>
+                        </tbody>                        
                     </table>
                 </div>
             </div>
