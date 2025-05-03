@@ -7,7 +7,10 @@
 <div class="card custom-card">
     <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple">
         <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
-        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add New</a>
+        <div class="custom-btn-group">
+            <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add New</a>
+            <a href="{% url 'budget:export-csv' %}?type=budgets" class="btn btn-primary btn-sm custom-btn-purple">Export</a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
