@@ -130,13 +130,7 @@ The API will be available at `http://localhost:8000/api/`
 - UI/UX Design
 - Designed **Login** and **Register** pages (UI/UX)
 - Created general layout for **Dashboard** and **Transactions**
-- Developed consistent general styles:
-  - Cards
-  - Forms
-  - Tables
-  - Buttons
-  - Icons
-  - Brand logo
+- Developed consistent general styles (cards, forms, tables, buttons, brand logo)
 - Implemented export functionality for income/expense data (CSV)
 
 ## Jade
