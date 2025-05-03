@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -151,7 +151,22 @@ class BudgetListView(LoginRequiredMixin, ListView):
     context_object_name = 'budgets'
 
     def get_queryset(self):
-        return Budget.objects.filter(user=self.request.user)
+        month_filter = self.request.GET.get('month', None)
+        category_filter = self.request.GET.get('category', None)
+
+        queryset = Budget.objects.filter(user=self.request.user)
+
+        if month_filter:
+            try:
+                selected_month = datetime.strptime(month_filter, '%Y-%m')
+                queryset = queryset.filter(month__year=selected_month.year, month__month=selected_month.month)
+            except ValueError:
+                pass  # Invalid date format
+        
+        if category_filter:
+            queryset = queryset.filter(category__id=category_filter)
+
+        return queryset.order_by('month')  # Return ordered by month
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -161,13 +176,27 @@ class BudgetListView(LoginRequiredMixin, ListView):
         context['update_url'] = 'budget:budget-update'
         context['delete_url'] = 'budget:budget-delete'
         context['categories'] = Category.objects.filter(user=self.request.user)
+        
+        # Add current month filter default
+        current_month = datetime.now().strftime('%Y-%m')
+        context['current_month'] = current_month
+
+        # Add month filter to context
+        context['month_filter'] = self.request.GET.get('month', current_month)
+        context['category_filter'] = self.request.GET.get('category', None)
+
         return context
 
 class BudgetCreateView(LoginRequiredMixin, CreateView):
     model = Budget
     form_class = BudgetForm
     template_name = 'budget/form.html'
-    success_url = reverse_lazy('budget:budget-list')
+
+    def get_success_url(self):
+        # Get the current month in 'YYYY-MM' format
+        current_month = timezone.now().strftime('%Y-%m')
+        # Redirect to the budget list page with the current month as a query parameter
+        return reverse('budget:budget-list') + f'?month={current_month}'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

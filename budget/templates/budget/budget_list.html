@@ -32,6 +32,33 @@
                 <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add New</a>
             </div>
             <div class="card-body">
+                <div class="row mb-3" style="padding-left: 2vw; padding-right: 2vw;">
+                    <!-- Filter by month and category (automatic on select) -->
+                   
+                    <form method="get" class="d-flex align-items-center">
+
+
+                        <label for="month_filter" class="custom-col-name-purple pe-2 fw-bold">Month:</label>
+                        <input type="month" id="month_filter" name="month" value="{{ month_filter }}" class="form-control form-control-sm w-25 me-3" onchange="this.form.submit();">
+
+                    
+
+                        <label for="category_filter" class="custom-col-name-purple pe-2 fw-bold">Category:</label>
+                        <select id="category_filter" name="category" class="form-control form-control-sm w-25 me-3" onchange="this.form.submit();">
+                        <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_filter %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                        
+                        <div class="ms-auto">
+                            <button type="button" onclick="window.location.href='?month={{ current_month }}'" class="btn btn-primary btn-sm custom-btn-purple">Current Month</button>
+                            <button type="button" onclick="window.location.href='?'" class="btn btn-primary btn-sm custom-btn-purple">View All</button>
+                        </div>
+                        
+                    </form>
+                </div>
                 <div class="table-responsive">
                     <table class="table custom-no-bg">
                         <thead>
@@ -66,5 +93,19 @@
             </div>
         </div>
     </div>
+
 </div>
+<script>
+    // Clear the category filter when month filter is changed
+    document.getElementById('month_filter').addEventListener('change', function() {
+        document.getElementById('category_filter').value = ''; // Reset category filter
+        this.form.submit(); // Submit the form
+    });
+
+    // Clear the month filter when category filter is changed
+    document.getElementById('category_filter').addEventListener('change', function() {
+        document.getElementById('month_filter').value = ''; // Reset month filter
+        this.form.submit(); // Submit the form
+    });
+</script>
 {% endblock %}
