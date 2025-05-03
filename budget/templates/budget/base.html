@@ -12,35 +12,39 @@
     <link rel="stylesheet" href="{% static 'css/custom_buttons.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom_tables.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom_forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_dashboard.css' %}">
 </head>
 <body style="background: radial-gradient(64.87% 195.86% at 45.36% 68.1%, rgba(255, 175, 204, 0.47) 0%, rgba(189, 224, 254, 0.47) 100%) !important;">
     <nav class="navbar navbar-expand-lg navbar-dark custom-pink-bg">
         <div class="container">
-            <a class="navbar-brand custom-app-name-style" href="{% url 'budget:dashboard' %}">Budget Co.</a>
+            <a class="navbar-brand custom-app-name-style" href="{% url 'budget:dashboard' %}" aria-label="Budget Co. Logo">Budget Co.</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Dashboard Tab">
                         <a class="nav-link" href="{% url 'budget:dashboard' %}">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Transactions Tab">
                         <a class="nav-link" href="{% url 'budget:transaction-list' %}">Transactions</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Categories Tab">
+                        <a class="nav-link" href="{% url 'budget:category-list' %}">Categories</a>
+                    </li>
+                    <li class="nav-item" aria-label="Budgets Tab">
                         <a class="nav-link" href="{% url 'budget:budget-list' %}">Budgets</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" aria-label="Export Tab">
                         <a class="nav-link" href="{% url 'budget:export-csv' %}">Export</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="nav-link">Welcome, {{ user.username }}</span>
+                            <span class="nav-link" aria-label="Welcome, {{ user.username }}">Welcome, {{ user.username }} </span>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" aria-label="Logout">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="nav-link">Logout</button>
