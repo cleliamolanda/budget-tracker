@@ -1,4 +1,4 @@
-# Personal Budget Tracker Backend
+# Budget Co. Backend
 
 A Django REST framework backend for a personal budget tracking application.
 
@@ -82,4 +82,4 @@ To run the development server:
 python manage.py runserver
 ```
 
-The API will be available at `http://localhost:8000/api/` 
+The API will be available at `http://localhost:8000/api/`
