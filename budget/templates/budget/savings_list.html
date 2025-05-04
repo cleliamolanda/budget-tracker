@@ -21,7 +21,7 @@
                                 <th class="custom-col-name-lightskyblue" scope="col">Target Amount</th>
                                 <th class="custom-col-name-lightskyblue" scope="col">Current Amount</th>
                                 <th class="custom-col-name-lightskyblue" scope="col">Date Last Saved</th>
-                                <th class="custom-col-name-lightskyblue" scope="col">Notes</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Status</th>
                                 <th class="custom-col-name-lightskyblue" scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -32,7 +32,7 @@
                                     <td class="custom-text-blk">{{ saving.target_amount }}</td>
                                     <td class="custom-text-blk">{{ saving.current_amount }}</td>
                                     <td class="custom-text-blk">{{ saving.date_saved|date:"F j, Y" }}</td>
-                                    <td class="custom-text-blk">{{ saving.notes }}</td>
+                                    <td class="custom-text-blk">{{ saving.status }}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Savings Actions">
                                             <a href="{% url 'budget:transaction-update' saving.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ saving.goal }}">Edit</a>

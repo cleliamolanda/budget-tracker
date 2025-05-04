@@ -25,5 +25,11 @@ urlpatterns = [
     path('budgets/<int:pk>/update/', views.BudgetUpdateView.as_view(), name='budget-update'),
     path('budgets/<int:pk>/delete/', views.BudgetDeleteView.as_view(), name='budget-delete'),
 
+    # Savings URLs
+    path('savings/', views.savings_list, name='savings-list'),
+    path('savings/create/', views.savings_create, name='savings-create'),
+    path('savings/<int:pk>/update/', views.savings_update, name='savings-update'),
+    path('savings/<int:pk>/delete/', views.savings_delete, name='savings-delete'),
+
     path('export/', views.export_csv, name='export-csv'),
 ]
