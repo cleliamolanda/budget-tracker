@@ -33,6 +33,9 @@
                     <li class="nav-item" aria-label="Budgets Tab">
                         <a class="nav-link custom-text-fuchsia" id="budgets" href="{% url 'budget:budget-list' %}">Budgets</a>
                     </li>
+                    <li class="nav-item" aria-label="Savings Tab">
+                        <a class="nav-link custom-text-fuchsia" id="savings" href="{% url 'budget:savings-list' %}">Savings</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}

@@ -21,6 +21,7 @@ class Transaction(models.Model):
     TRANSACTION_TYPES = (
         ('income', 'Income'),
         ('expense', 'Expense'),
+        ('savings', 'Savings'),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transactions')

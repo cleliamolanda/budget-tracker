@@ -1,0 +1,55 @@
+{% extends 'budget/base.html' %}
+{% block title %}Savings - Budget Co.{% endblock %}
+
+{% block content %}
+<div class="d-flex" style="gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
+    <!-- Savings List -->
+    <div class="flex-grow-1">
+        <div class="card custom-card">
+            <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightskyblue" aria-label="Savings List Header">
+                <h5 class="card-title custom-text-blk mb-0">Savings</h5>
+                <div class="custom-btn-group">
+                    <a href="{% url 'budget:transaction-create' %}?type=savings" class="btn btn-primary btn-sm custom-btn-skyblue" aria-label="Add a New Saving">+ Add New</a>
+                </div>
+            </div>
+            <div class="card-body" role="table" aria-label="Table of Savings">
+                <div class="table-responsive d-flex flex-column" role="table" aria-label="Table of Savings">
+                    <table class="table custom-no-bg">
+                        <thead>
+                            <tr class="custom-text-align-center">
+                                <th class="custom-col-name-lightskyblue" scope="col">Goal</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Target Amount</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Current Amount</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Date Last Saved</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Notes</th>
+                                <th class="custom-col-name-lightskyblue" scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for saving in savings %}
+                                <tr class="custom-text-align-center">
+                                    <td class="custom-text-blk">{{ saving.goal }}</td>
+                                    <td class="custom-text-blk">{{ saving.target_amount }}</td>
+                                    <td class="custom-text-blk">{{ saving.current_amount }}</td>
+                                    <td class="custom-text-blk">{{ saving.date_saved|date:"F j, Y" }}</td>
+                                    <td class="custom-text-blk">{{ saving.notes }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Savings Actions">
+                                            <a href="{% url 'budget:transaction-update' saving.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ saving.goal }}">Edit</a>
+                                            <a href="{% url 'budget:transaction-delete' saving.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn" aria-label="Delete {{ saving.goal }}">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center" aria-live="polite">No savings found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
