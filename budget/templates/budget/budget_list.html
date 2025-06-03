@@ -5,19 +5,19 @@
 
 {% block content %}
 <div class="card custom-card">
-    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple">
+    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-purple" aria-label="Budgets List Header">
         <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
-        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add New</a>
+        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-purple" aria-label="Add a New Budget">+ Add New</a>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
+    <div class="card-body" role="table" aria-label="Table of Budgets">
+        <div class="table-responsive" role="table" aria-label="Table of Budgets">
             <table class="table custom-no-bg">
                 <thead>
                     <tr class="custom-text-align-center">
                         {% for header in headers %}
-                            <th class="custom-col-name-purple">{{ header }}</th>
+                            <th class="custom-col-name-purple" scope="col">{{ header }}</th>
                         {% endfor %}
-                        <th class="custom-col-name-purple">Actions</th>
+                        <th class="custom-col-name-purple" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,15 +27,15 @@
                             <td class="custom-text-blk">{{ budget.amount|peso_format }}</td>
                             <td class="custom-text-blk">{{ budget.month|date:"F Y" }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <a href="{% url update_url budget.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
-                                    <a href="{% url delete_url budget.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
+                                <div class="btn-group" role="group" aria-label="Budgets Actions">
+                                    <a href="{% url update_url budget.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ budget.category.name }}">Edit</a>
+                                    <a href="{% url delete_url budget.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn" aria-label="Delete {{ budget.category.name }}">Delete</a>
                                 </div>
                             </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="{{ headers|length|add:1 }}" class="text-center">No budgets found.</td>
+                            <td colspan="{{ headers|length|add:1 }}" class="text-center" aria-live="polite">No budgets found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>

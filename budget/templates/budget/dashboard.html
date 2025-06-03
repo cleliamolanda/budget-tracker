@@ -9,24 +9,24 @@
     <!-- Monthly Summary (Bar Chart) -->
     <div class="col-md-8">
         <div class="card custom-card mb-4">
-            <div class="card-header custom-card-header-skyblue custom-card-header-border">
+            <div class="card-header custom-card-header-skyblue custom-card-header-border" aria-label="Monthly Summary Header">
                 <h5 class="card-title custom-text-blk mb-0">Monthly Summary</h5>
             </div>
             <div class="card-body">
                 <div class="chart-container" style="min-height: 300px;">
-                    <canvas id="monthlySummaryChart"></canvas>
+                    <canvas id="monthlySummaryChart" aria-label="Bar Chart Showing Income and Expenses for Recent Months" role="img"></canvas>
                 </div>
                 <div class="mt-3 row">
                     {% now "F" as current_month %}
-                    <div class="col-md-4">
+                    <div class="col-md-4" aria-label="Current Month Income">
                         <h6>{{ current_month }} Income</h6>
                         <p class="text-success">{{ income|peso_format }}</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" aria-label="Current Month Income">
                         <h6>{{ current_month }} Expenses</h6>
                         <p class="text-danger">{{ expenses|peso_format }}</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" aria-label="Current Month Income">
                         <h6>{{ current_month }} Balance</h6>
                         <p class="{% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">
                             {{ balance|peso_format }}
@@ -40,15 +40,15 @@
     <!-- Category Expenses (Pie Chart) -->
     <div class="col-md-4">
         <div class="card custom-card mb-4">
-            <div class="card-header custom-card-header-lightskyblue custom-card-header-border">
+            <div class="card-header custom-card-header-lightskyblue custom-card-header-border" aria-label="Category Expenses Header">
                 <h5 class="card-title custom-text-blk mb-0">Category Expenses</h5>
             </div>
             <div class="card-body">
                 <div class="chart-container" style="min-height: 250px;">
-                    <canvas id="categoryExpensesChart"></canvas>
+                    <canvas id="categoryExpensesChart" aria-label="Pie Chart Showing Expenses Grouped by Category for Current Month" role="img"></canvas>
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table custom-no-bg">
+                    <table class="table custom-no-bg" >
                         <thead>
                             <tr class="custom-text-align-center">
                                 <th class="custom-col-name-skyblue">Category</th>
@@ -78,11 +78,11 @@
 <div class="row">
     <div class="col-12">
         <div class="card custom-card">
-            <div class="card-header d-flex justify-content-between align-items-center custom-card-header-purple custom-card-header-border">
+            <div class="card-header d-flex justify-content-between align-items-center custom-card-header-purple custom-card-header-border" aria-label="Monthly Budgets Header">
                 <h5 class="card-title custom-text-blk mb-0">Monthly Budgets</h5>
-                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple">+ Add Budget</a>
+                <a href="{% url 'budget:budget-create' %}" class="btn btn-primary btn-sm custom-btn-purple" aria-label="Add a New Budget">+ Add Budget</a>
             </div>
-            <div class="card-body">
+            <div class="card-body" aria-label="Monthly Budget Summary by Category">
                 <div class="table-responsive">
                     <table class="table custom-no-bg">
                         <thead>

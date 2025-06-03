@@ -5,19 +5,19 @@
 
 {% block content %}
 <div class="card custom-card">
-    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightpink">
+    <div class="card-header d-flex justify-content-between align-items-center custom-card-header-border custom-card-header-lightpink" aria-label="Transactions List Header">
         <h5 class="card-title custom-text-blk mb-0">{{ title }}</h5>
-        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-fuchsia">+ Add New</a>
+        <a href="{% url create_url %}" class="btn btn-primary btn-sm custom-btn-fuchsia" aria-label="Add a New Transaction">+ Add New</a>
     </div>
-    <div class="card-body">
-        <div class="table-responsive ">
+    <div class="card-body" role="table" aria-label="Table of Transactions">
+        <div class="table-responsive" role="table" aria-label="Table of Transactions">
             <table class="table custom-no-bg">
                 <thead>
                     <tr class="custom-text-align-center">
                         {% for header in headers %}
-                            <th class="custom-col-name-fuchsia">{{ header }}</th>
+                            <th class="custom-col-name-fuchsia" scope="col">{{ header }}</th>
                         {% endfor %}
-                        <th class="custom-col-name-fuchsia">Actions</th>
+                        <th class="custom-col-name-fuchsia" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,15 +31,15 @@
                             <td class="custom-text-blk">{{ transaction.category.name|default:"Uncategorized" }}</td>
                             <td class="custom-text-blk">{{ transaction.date|date:"F j, Y" }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <a href="{% url update_url transaction.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
-                                    <a href="{% url delete_url transaction.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn">Delete</a>
+                                <div class="btn-group" role="group" aria-label="Transaction Actions">
+                                    <a href="{% url update_url transaction.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ transaction.title }}">Edit</a>
+                                    <a href="{% url delete_url transaction.id %}" class="btn btn-sm btn-outline-danger custom-delete-btn" aria-label="Delete {{ transaction.title }}">Delete</a>
                                 </div>
                             </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="{{ headers|length|add:1 }}" class="text-center">No transactions found.</td>
+                            <td colspan="{{ headers|length|add:1 }}" class="text-center" aria-live="polite">No transactions found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
