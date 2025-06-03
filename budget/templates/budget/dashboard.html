@@ -118,28 +118,6 @@
     </div>
 </div>
 
-{% if settings.DEBUG %}
-<!-- Debug information (only visible in DEBUG mode) -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-warning">
-                <h5 class="card-title">Debug Information</h5>
-            </div>
-            <div class="card-body">
-                <div id="chart-debug">
-                    <p><strong>Chart Data:</strong></p>
-                    <p>Income: {{ income }}</p>
-                    <p>Expenses: {{ expenses }}</p>
-                    <p>Category Names: {{ category_names|safe }}</p>
-                    <p>Category Values: {{ category_values|safe }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-
 <!-- Store data for charts in JSON format -->
 {{ category_names|json_script:"category-names" }}
 {{ category_values|json_script:"category-values" }}
@@ -149,29 +127,15 @@
 {% block extra_js %}
 {{ block.super }}
 <script>
-console.log("Initializing charts..."); // Debug log
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("Chart initialization starting"); // Debug log
-
     // ----- Monthly Summary Bar Chart -----
     const monthlySummaryCanvas = document.getElementById('monthlySummaryChart');
-    if (!monthlySummaryCanvas) {
-        console.error("Could not find monthlySummaryChart canvas element");
-        return;
-    }
-
     const monthlySummaryCtx = monthlySummaryCanvas.getContext('2d');
 
     // Get current month financial data with proper error handling
     const currentMonthIncome = parseFloat('{{ income|default:0 }}') || 0;
     const currentMonthExpenses = parseFloat('{{ expenses|default:0 }}') || 0;
     const currentMonthBalance = parseFloat('{{ balance|default:0 }}') || 0;
-
-    console.log("Current month financial data:", {
-        income: currentMonthIncome,
-        expenses: currentMonthExpenses,
-        balance: currentMonthBalance
-    }); // Debug log
 
     // Get monthly data from JSON if available
     let monthlyData = [];
@@ -182,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
             monthlyData = JSON.parse(monthlyDataElement.textContent || '[]');
         }
     } catch (error) {
-        console.error("Error parsing monthly data:", error);
         // Fallback to current month only if there's an error
         monthlyData = [{
             label: new Date().toLocaleString('default', { month: 'short' }) + ' ' + new Date().getFullYear(),
@@ -191,8 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
             balance: currentMonthBalance
         }];
     }
-
-    console.log("Monthly data:", monthlyData); // Debug log
 
     // Make sure there's data to display
     if (!Array.isArray(monthlyData) || monthlyData.length === 0 || monthlyData.every(data => data.income === 0 && data.expenses === 0)) {
@@ -295,11 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ----- Category Expenses Pie Chart -----
     const categoryCanvas = document.getElementById('categoryExpensesChart');
-    if (!categoryCanvas) {
-        console.error("Could not find categoryExpensesChart canvas element");
-        return;
-    }
-
     const categoryCtx = categoryCanvas.getContext('2d');
 
     try {
@@ -307,15 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoryNamesElement = document.getElementById('category-names');
         const categoryValuesElement = document.getElementById('category-values');
 
-        if (!categoryNamesElement || !categoryValuesElement) {
-            console.error("Could not find category data elements");
-            return;
-        }
-
         const categoryNames = JSON.parse(categoryNamesElement.textContent || '[]');
         const categoryValues = JSON.parse(categoryValuesElement.textContent || '[]');
-
-        console.log("Category data:", { categoryNames, categoryValues }); // Debug log
 
         // Check if there's data to display
         if (categoryNames.length === 0 || categoryValues.length === 0 || categoryValues.every(val => val === 0)) {
@@ -433,7 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     } catch (error) {
-        console.error("Error initializing category chart:", error);
         // Set the canvas dimensions
         const scale = window.devicePixelRatio || 1;
         const width = categoryCanvas.offsetWidth;
