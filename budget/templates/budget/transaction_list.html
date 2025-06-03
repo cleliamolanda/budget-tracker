@@ -29,7 +29,7 @@
                             </td>
                             <td class="custom-text-blk">{{ transaction.get_transaction_type_display }}</td>
                             <td class="custom-text-blk">{{ transaction.category.name|default:"Uncategorized" }}</td>
-                            <td class="custom-text-blk">{{ transaction.date|date:"Y-m-d" }}</td>
+                            <td class="custom-text-blk">{{ transaction.date|date:"F j, Y" }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{% url update_url transaction.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn">Edit</a>
