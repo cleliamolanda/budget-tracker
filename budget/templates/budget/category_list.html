@@ -23,8 +23,8 @@
                     {% for category in object_list %}
                         <tr class="custom-text-align-center">
                             <td class="custom-text-blk">{{ category.name }}</td>
-                            <td class="custom-text-blk">{{ category.created_at|date:"F j, Y, g:i A" }}</td>
-                            <td class="custom-text-blk">{{ category.updated_at|date:"F j, Y, g:i A" }}</td>
+                            <td class="custom-text-blk">{{ category.created_at|date:"F j, Y" }}</td>
+                            <td class="custom-text-blk">{{ category.updated_at|date:"F j, Y" }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Categories Actions">
                                     <a href="{% url update_url category.id %}" class="btn btn-sm btn-outline-primary custom-edit-btn" aria-label="Edit {{ category.name }}">Edit</a>
